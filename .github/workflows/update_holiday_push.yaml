@@ -2,8 +2,8 @@ name: Update Holidays
 
 
 on:
-  #schedule:
-  #  - cron: '*/10 * * * *'
+  schedule:
+   - cron: '0 0 1 * *'
   push:
     branches:
       - main
