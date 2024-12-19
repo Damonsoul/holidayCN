@@ -1,15 +1,36 @@
 name: Update Holidays
 
+
 on:
+  #schedule:
+  #  - cron: '*/10 * * * *'
   push:
     branches:
       - main
-
+      
 jobs:
-  update-holidays:
+  render_my_file:
     runs-on: ubuntu-latest
+    
+    permissions:
+      contents: write
+      
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Run update_holiday.R
-        run: Rscript update_holiday.R
+    - name: Checkout repository
+      uses: actions/checkout@v4.2.2
+        
+    - name: Install R packages And Update holiday_zh
+      run: |
+        Rscript -e "install.packages(c('dplyr','httr','jsonlite','usethis'), repos = 'https://packagemanager.posit.co/cran/latest')"
+        Rscript -e "source('./R/update_holiday.R')"
+        
+    - name: Commit holiday_zh data file
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git add ./data/holiday_zh.rda
+        git commit -m "Update holiday_zh.rda"
+        git push
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+   
