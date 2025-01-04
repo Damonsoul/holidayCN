@@ -20,7 +20,7 @@ update_holiday <- function() {
   load("data/holiday_zh.rda")
   holiday_zh <- rbind(holiday_zh, holiday_zh_new) |>
     dplyr::distinct()
-
+  write.csv(holiday_zh,'./inst/extdata/holiday_zh.csv', row.names = FALSE)
   usethis::use_data(holiday_zh, overwrite = TRUE)
   
 }
