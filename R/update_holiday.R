@@ -18,6 +18,7 @@ update_holiday <- function() {
 
   holiday_zh_new <- do.call(rbind, holiday_zh_list)
   load("data/holiday_zh.rda")
+  holiday_zh$update_time <- NULL
   holiday_zh <- rbind(holiday_zh, holiday_zh_new) |>
     dplyr::distinct() |> dplyr::mutate(update_time = Sys.time())
   write.csv(holiday_zh,'./inst/extdata/holiday_zh.csv', row.names = FALSE)
