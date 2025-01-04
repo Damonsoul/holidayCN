@@ -30,6 +30,10 @@ jobs:
         Rscript -e "renv::restore(repos = 'https://packagemanager.posit.co/cran/latest')"
         Rscript -e "source('./R/update_holiday.R')"
         
+    - name: Rerender Quarto file
+      run: |
+        quarto render README.qmd
+
     - name: Commit holiday_zh data file
       run: |
         git config --global user.name "github-actions[bot]"
