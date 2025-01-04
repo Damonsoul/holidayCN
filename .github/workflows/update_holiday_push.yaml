@@ -9,7 +9,7 @@ on:
       - master
       
 jobs:
-  render_my_file:
+  update_holiday:
     runs-on: ubuntu-latest
     
     permissions:
@@ -19,9 +19,15 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4.2.2
         
+    - name: Install Quarto CLI
+      uses: quarto-dev/quarto-actions/setup@v2
+      with:
+        version: LATEST
+
     - name: Install R packages And Update holiday_zh
       run: |
-        Rscript -e "install.packages(c('dplyr','httr','jsonlite','usethis'), repos = 'https://packagemanager.posit.co/cran/latest')"
+        Rscript -e "install.packages('renv', repos = 'https://packagemanager.posit.co/cran/latest')"
+        Rscript -e "renv::restore(repos = 'https://packagemanager.posit.co/cran/latest')"
         Rscript -e "source('./R/update_holiday.R')"
         
     - name: Commit holiday_zh data file
