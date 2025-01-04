@@ -22,4 +22,6 @@ update_holiday <- function() {
     dplyr::distinct()
 
   usethis::use_data(holiday_zh, overwrite = TRUE)
+  
 }
+update_holiday()
